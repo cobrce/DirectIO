@@ -35,9 +35,30 @@ class Input {
         boolean read() {
             return bitRead(*port_t(_pins<pin>::in), _pins<pin>::bit);
         }
+		void WaitForRisingEdge()
+		{
+			WaitForEdge(false);
+		}
+		void WaitForFallingEdge()
+		{
+			WaitForEdge(true);
+		}
         operator boolean() {
             return read();
         }
+	private:
+		void WaitForEdge(bool falling)
+		{
+			bool current = falling;
+			bool previous;
+			while (true)
+			{
+				previous = current;
+				current = read();
+				if (previous == !falling && current == falling)
+					return;				
+			}		
+		}
 };
 
 class InputPin {
