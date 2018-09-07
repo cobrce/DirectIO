@@ -49,13 +49,13 @@ class Input {
 	private:
 		void WaitForEdge(bool falling)
 		{
-			bool current = falling;
+			bool current = !falling;
 			bool previous;
 			while (true)
 			{
 				previous = current;
 				current = read();
-				if (previous == !falling && current == falling)
+				if (previous == falling && current != falling)
 					return;				
 			}		
 		}
